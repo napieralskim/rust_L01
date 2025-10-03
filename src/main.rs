@@ -1,3 +1,4 @@
+use std::io::{self, Write};
 use rand::Rng;
 
 fn main() {
@@ -5,11 +6,11 @@ fn main() {
     let loop_status = loop {
 
         print!("Podaj liczbę: ");
-        std::io::stdout().flush().unwrap();
+        io::stdout().flush().unwrap();
 
         let mut guess = String::new();
 
-        std::io::stdin()
+        io::stdin()
             .read_line(&mut guess)
             .expect("Nie udało się pobrać liczby!");
 
@@ -22,7 +23,7 @@ fn main() {
             break false;
         }
 
-        x += rand::thread_rng().gen_range(0..=5);
+        x += rand::rng().random_range(0..=5);
         println!("Nowa wartość: {x}");
 
         let pows = pows_of_2();
@@ -37,7 +38,6 @@ fn main() {
         }
 
         use std::fs::File;
-        use std::io::prelude::*;
         let mut file = File::create("xyz.txt")
             .expect("Nie udało się stworzyć pliku!");
         for i in 0..pows.len() {
@@ -52,7 +52,8 @@ fn main() {
             true => "z powodu błędu",
         }
     );
-    
+
+    tuple_thingy();
 }
 
 const SIZE: usize = 10;
@@ -93,6 +94,26 @@ fn collatz_check(mut num: u32) -> bool {
     false
 }
 
-fn tuple_make() -> (u32, f32) {
-    (5, 3.8)
+fn tuple_thingy() {
+
+    'my_label: loop {
+
+        // różne typy
+        let tuple: (u8, i16) = (
+            rand::rng().random_range(0..u8::MAX),
+            rand::rng().random_range(0..i16::MAX),
+        );
+
+        // podział krotki
+        let (a, b) = tuple;
+
+        // break with label
+        if (a as i16) > b {
+            println!("Stop, bo a > b.");
+            break 'my_label;
+        } else {
+            println!("({a}, {b})");
+        }
+    }
+
 }
