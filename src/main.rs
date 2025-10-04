@@ -27,21 +27,21 @@ fn main() {
         println!("Nowa wartość: {x}");
 
         let pows = pows_of_2();
-        for i in 0..pows.len() {
+        for pow in pows {
 
-            let res = collatz_check(pows[i]);
+            let res = collatz_check(pow);
             let msg =
                 if res {"spełnia hipotezę"}
                 else {"nie spełnia hipotezy"};
-            println!("Liczba {} {} Collatza.", pows[i], msg);
+            println!("Liczba {} {} Collatza.", pow, msg);
         
         }
 
         use std::fs::File;
         let mut file = File::create("xyz.txt")
             .expect("Nie udało się stworzyć pliku!");
-        for i in 0..pows.len() {
-            writeln!(file, "{}", pows[i])
+        for pow in pows {
+            writeln!(file, "{}", pow)
                 .expect("Nie udało się zapisać do pliku!");
         }
     };
@@ -63,11 +63,8 @@ fn main() {
     ];
     
     'outer:
-    for y in 0..board.len() {
-        let row = &board[y];
-        for x in 0..row.len() {
-            let elem = row[x];
-
+    for row in board {
+        for elem in row {
             println!("pole {elem}");
             if elem == 9 {
                 break 'outer;
@@ -87,12 +84,12 @@ fn pows_of_2() -> [u32; SIZE] {
     let mut arr: [u32; SIZE] = [0; SIZE];
 
     let mut tmp = 1;
-    for i in 0..SIZE {
-        arr[i] = tmp;
+    for e in arr.iter_mut().take(SIZE) { // wymysł clippy'ego
+        *e = tmp;
         tmp *= 2;
     }
 
-    return arr;
+    arr
 }
 
 fn collatz_next(num: u32) -> u32 {
