@@ -53,7 +53,32 @@ fn main() {
         }
     );
 
-    tuple_thingy();
+    //--------------------------------------------------------------------------
+
+    let board = [
+        [ 0, 1, 2 ,3],
+        [ 4, 5, 6, 7],
+        [ 8, 9,10,11],
+        [12,13,14,15],
+    ];
+    
+    'outer:
+    for y in 0..board.len() {
+        let row = &board[y];
+        for x in 0..row.len() {
+            let elem = row[x];
+
+            println!("pole {elem}");
+            if elem == 9 {
+                break 'outer;
+            }            
+        }
+    }
+    println!("znaleziono dziewiątkę");
+
+    let coords = make_tuple();
+    println!("wygenerowana tupla: (x: {}, y: {})", coords.0, coords.1);
+    println!("wartość pod tymi współrzędnymi: {}", board[coords.1 as usize][coords.0 as usize])
 }
 
 const SIZE: usize = 10;
@@ -94,26 +119,10 @@ fn collatz_check(mut num: u32) -> bool {
     false
 }
 
-fn tuple_thingy() {
-
-    'my_label: loop {
-
-        // różne typy
-        let tuple: (u8, i16) = (
-            rand::rng().random_range(0..u8::MAX),
-            rand::rng().random_range(0..i16::MAX),
-        );
-
-        // podział krotki
-        let (a, b) = tuple;
-
-        // break with label
-        if (a as i16) > b {
-            println!("Stop, bo a > b.");
-            break 'my_label;
-        } else {
-            println!("({a}, {b})");
-        }
-    }
-
+// naciągany przykład, no ale różne typy są
+fn make_tuple() -> (i8, u16) {
+    (
+        rand::rng().random_range(0..4),
+        rand::rng().random_range(0..4),
+    )
 }
