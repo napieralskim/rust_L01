@@ -84,7 +84,7 @@ fn pows_of_2() -> [u32; SIZE] {
     let mut arr: [u32; SIZE] = [0; SIZE];
 
     let mut tmp = 1;
-    for e in arr.iter_mut().take(SIZE) { // wymysł clippy'ego
+    for e in &mut arr {
         *e = tmp;
         tmp *= 2;
     }
